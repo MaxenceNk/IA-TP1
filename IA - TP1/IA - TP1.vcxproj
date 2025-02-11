@@ -127,12 +127,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="EmptyState.cpp" />
+    <ClCompile Include="FullState.cpp" />
     <ClCompile Include="Gun.cpp" />
     <ClCompile Include="IA - TP1.cpp" />
+    <ClCompile Include="LoadedState.cpp" />
+    <ClCompile Include="ReloadingState.cpp" />
+    <ClCompile Include="ShootingState.cpp" />
     <ClCompile Include="State.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EmptyState.h" />
+    <ClInclude Include="FullState.h" />
     <ClInclude Include="Gun.h" />
+    <ClInclude Include="LoadedState.h" />
+    <ClInclude Include="ReloadingState.h" />
+    <ClInclude Include="ShootingState.h" />
     <ClInclude Include="State.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

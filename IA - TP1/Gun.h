@@ -1,47 +1,35 @@
 #pragma once
-class Gun
-{
+#include "State.h"
+
+class Gun {
 private:
-	int mAmmo, mCapacity; 
-	bool mIsReloading, mIsShooting;
-	float mReloadTime, mShootTime, mReloadProgress, mShootProgress;
+    int mAmmo, mCapacity;
+    float mReloadTime, mShootTime, mReloadProgress, mShootProgress;
+    State* mCurrentState;
 
 public:
+    Gun(int pMaxAmmo, float pShootTime, float pReloadTime);
+    ~Gun();
 
-	enum class State
-	{
-		Full,
-		Loaded,
-		Empty,
-		Shooting,
-		Reloading,
-		
-		Count
-	};
+    void Update(float deltaTime);
+    void SetState(State* newState);
+    void Shoot();
+    void Reload();
 
-	static constexpr int StateCount = static_cast<int>(State::Count);
+    float GetShootTime() const { return mShootTime; }
+    float GetShootProgress() const { return mShootProgress; }
+    void ResetShootProgress() { mShootProgress = 0.f; }
+    void DecreaseAmmo() { if (mAmmo > 0) mAmmo--; }
 
-private:
+    int GetAmmo() const { return mAmmo; }
+    int GetCapacity() const { return mCapacity; }
+    void UseAmmo() { mAmmo--; }
+    void RefillAmmo() { mAmmo = mCapacity; }
 
-	State mState = State::Full;
+    void StartReload() { mReloadProgress = 0.f; }
+    void UpdateReloadProgress(float deltaTime) { mReloadProgress += deltaTime; }
+    bool IsReloadComplete() const { return mReloadProgress >= mReloadTime; }
 
-	int mTransitions[StateCount][StateCount] =
-	{
-		//Full, Loaded, Empty, Shooting, Reloading
-		{0,     0,       0,      1,       0}, //Full
-		{0,     0,       0,      1,       1}, //Loaded
-		{0,     0,       0,      0,       1}, //Empty
-		{0,     1,       1,      0,       1}, //Shooting
-		{1,     0,       0,      0,       0}  //Reloading
-	};
-
-public:
-
-	Gun(int pMaxAmmo, float pShootTime, float pReloadTime);
-	void Update(float deltaTime);
-	bool Shoot();
-	bool Reload();
-	bool TransitionTo(State newState);
-
+    void UpdateShootProgress(float deltaTime) { mShootProgress += deltaTime; }
+    bool IsShootComplete() const { return mShootProgress >= mShootTime; }
 };
-
